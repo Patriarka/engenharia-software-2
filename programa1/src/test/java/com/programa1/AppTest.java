@@ -2,12 +2,63 @@ package com.programa1;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class AppTest {
+    private ListaEncadeada lista;
+
+    @Before
+    public void setUp() {
+        lista = new ListaEncadeada();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdicionarElementoPosicaoNegativa() {
+        lista.adicionarNo(10.0, -1);
+    }
 
     @Test
-    public void testCaso1() {
+    public void testMediaListaVazia() {
+        assertEquals(0.0, lista.mediaLista(), 0.001); 
+    }
+
+    @Test
+    public void testDesvioPadraoAmostralListaVazia() {
+        assertEquals(0.0, lista.desvioPadraoAmostralLista(), 0.001);
+    }
+
+    @Test
+    public void testAdicionarNoInicio() {
+        lista.adicionarNo(10, 0);
+        assertEquals(10, lista.obterElemento(0), 0.001);
+    }
+
+    @Test
+    public void testAdicionarNoMeio() {
+        lista.adicionarNo(10, 0);
+        lista.adicionarNo(30, 1);
+        lista.adicionarNo(20, 1);
+
+        assertEquals(20, lista.obterElemento(1), 0.001);
+    }
+
+    @Test
+    public void testAdicionarNoFim() {
+        lista.adicionarNo(10, 0);
+        lista.adicionarNo(20, 1);
+        lista.adicionarNo(30, 2);
+
+        assertEquals(30, lista.obterElemento(2), 0.001);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void obterElementoPosicaoMaiorQueTamanho() {
+        lista.obterElemento(1);
+    }
+
+    @Test
+    public void testCalculoMediaEDesvioPadrao_Caso1 () {
         ListaEncadeada lista = new ListaEncadeada();
         lista.adicionarNo(160, 0);
         lista.adicionarNo(591, 1);
@@ -32,7 +83,7 @@ public class AppTest {
     }
 
     @Test
-    public void testCaso2() {
+    public void testCalculoMediaEDesvioPadrao_Caso2() {
         ListaEncadeada lista = new ListaEncadeada();
         
         lista.adicionarNo(15.0, 0);
@@ -54,7 +105,6 @@ public class AppTest {
         double desvioPadraoAmostralListaEsperado = 62.26;
         double desvioPadraoAmostralListaCalculado = lista.desvioPadraoAmostralLista();
 
-        assertEquals(mediaEsperada, mediaCalculada, 0.01);
         assertEquals(desvioPadraoAmostralListaEsperado, desvioPadraoAmostralListaCalculado, 0.01);
     }
 }

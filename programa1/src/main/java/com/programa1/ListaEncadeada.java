@@ -7,7 +7,58 @@ public class ListaEncadeada {
         cabeca = new Cabeca();
     }
 
+    private class No {
+        private double dado;
+        private No proximo;
+        
+        public No(double dado) {
+            this.dado = dado;
+            this.proximo = null; 
+        }
+    
+        public double getDado() {
+            return dado;
+        }
+    
+        public void setDado(double dado) {
+            this.dado = dado;
+        }
+    
+        public No getProximo() {
+            return proximo;
+        }
+    
+        public void setProximo(No proximo) {
+            this.proximo = proximo;
+        }
+    }
+
+    private class Cabeca {
+        private No primeiro = null;
+        private No ultimo = null;
+    
+        public No getPrimeiro() {
+            return primeiro;
+        }
+    
+        public void setPrimeiro(No proximo) {
+            this.primeiro = proximo;
+        }
+    
+        public No getUltimo() {
+            return ultimo;
+        }
+    
+        public void setUltimo(No proximo) {
+            this.ultimo = proximo;
+        }
+    }
+
     public void adicionarNo(double dado, int posicao) {
+        if (posicao < 0) {
+            throw new IllegalArgumentException("Posição não pode ser negativa.");
+        }
+
         No novo = new No(dado); // criar novo no
         No no_atual = cabeca.getPrimeiro(); // pegar primeiro no
 
@@ -107,6 +158,22 @@ public class ListaEncadeada {
         }
 
         return (double) Math.sqrt(soma / (qtde_elementos - 1));
+    }
+
+    public double obterElemento(int posicao) {
+        if (posicao >= tamanho()) {
+            throw new IndexOutOfBoundsException("Posição maior ou igual ao tamanho da lista");
+        }
+
+        No no_atual = cabeca.getPrimeiro(); 
+        int posicao_atual = 0;
+
+        while (posicao_atual < posicao) {
+            no_atual = no_atual.getProximo();
+            posicao_atual++;
+        }
+
+        return no_atual.dado;
     }
 
     public int tamanho() {
